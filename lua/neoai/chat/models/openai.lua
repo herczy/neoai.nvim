@@ -43,7 +43,7 @@ M._recieve_chunk = function(chunk, on_stdout_chunk)
         end
         on_stdout_chunk(path)
         -- append_to_output(path, 0)
-        table.insert(M._chunks, path)
+        table.insert(M._chunks, tostring(path))
         ::continue::
     end
 end
@@ -66,7 +66,7 @@ M.send_to_model = function (chat_history, on_stdout_chunk, on_complete)
     chunks = {}
     raw_chunks = {}
     utils.exec("curl", {
-        "--silent", "--show-error", "--no-buffer", "https://api.openai.com/v1/chat/completions",
+        "--silent", "--show-error", "--no-buffer", config.options.open_ai.base_url .. "/v1/chat/completions",
         "-H",
         "Content-Type: application/json",
         "-H",

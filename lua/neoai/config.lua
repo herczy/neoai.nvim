@@ -72,6 +72,7 @@ M.get_defaults = function()
                     error(msg)
                 end,
             },
+            base_url = "https://api.openai.com",
         },
         shortcuts = {
             {
