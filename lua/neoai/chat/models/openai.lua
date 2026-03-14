@@ -52,12 +52,6 @@ end
 ---@param on_stdout_chunk fun(chunk: string) Function to call whenever a stdout chunk occurs
 ---@param on_complete fun(err?: string, output?: string) Function to call when model has finished
 M.send_to_model = function (chat_history, on_stdout_chunk, on_complete)
-    local api_key = os.getenv(config.options.open_ai.api_key.env)
-    if not api_key then
-      on_complete("OpenAI API Key is missing.", nil)
-      return
-    end
-
     local data = {
         model = chat_history.model,
       	stream = true,
@@ -69,8 +63,6 @@ M.send_to_model = function (chat_history, on_stdout_chunk, on_complete)
         "--silent", "--show-error", "--no-buffer", config.options.open_ai.base_url .. "/v1/chat/completions",
         "-H",
         "Content-Type: application/json",
-        "-H",
-        "Authorization: Bearer " .. api_key,
         "-d",
         vim.json.encode(data),
     }, function (chunk)
